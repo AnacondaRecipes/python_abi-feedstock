@@ -11,14 +11,15 @@ package:
 build:
   number: {{ build_num }}
   string: {{ build_num }}_{{ python_abi_tag }}
-  track_features:         # [python_implementation != "cpython"]
+  track_features:         # [python_implementation != "cpython" or python_abi_tag == "cp313t"]
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
+    - free-threading      # [python_implementation == "cpython" and python_abi_tag == "cp313t"]
 
 requirements:
   run_constrained:
-  # TODO rebuild python 3.13 with identifiable build strings
-  # - python {{ python_version }}.* *_cpython                                                      # [python_implementation == "cpython"]
+    - python {{ python_version }}.* *_cpython_{{ python_abi_tag }}                                 # [python_implementation == "cpython" and python_version == "3.13"]
+    - python {{ python_version }}.* *_cpython                                                      # [python_implementation == "cpython" and python_version != "3.13"]
     - python {{ python_version }}.* *_{{ python_impl_version.replace('.', '') }}_pypy              # [python_implementation == "pypy"]
     - python {{ python_version }}.* *_native{{ python_impl_version.replace('.', '') }}_graalpy     # [python_implementation == "graalpy"]
 
