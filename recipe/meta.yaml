@@ -3,6 +3,8 @@
 {% set python_impl_version = "3.6" %}
 {% endif %}
 
+{% set python_version_string = python_version|string %}
+{% set python_minor = python_version_string.split(".")[1]|int %}
 
 package:
   name: python_abi
@@ -18,8 +20,11 @@ build:
 
 requirements:
   run_constrained:
-    - python {{ python_version }}.* *_cpython_{{ python_abi_tag }}                                 # [python_implementation == "cpython" and python_version == "3.13"]
-    - python {{ python_version }}.* *_cpython                                                      # [python_implementation == "cpython" and python_version != "3.13"]
+    {% if python_minor >= 13 %}
+    - python {{ python_version }}.* *_cpython_{{ python_abi_tag }}                                 # [python_implementation == "cpython"]
+    {% else %}
+    - python {{ python_version }}.* *_cpython                                                      # [python_implementation == "cpython"]
+    {% endif %}
     - python {{ python_version }}.* *_{{ python_impl_version.replace('.', '') }}_pypy              # [python_implementation == "pypy"]
     - python {{ python_version }}.* *_native{{ python_impl_version.replace('.', '') }}_graalpy     # [python_implementation == "graalpy"]
 
