@@ -1,4 +1,4 @@
-{% set build_num = 5 %}
+{% set build_num = 0 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -37,9 +37,12 @@ test:
 about:
   home: https://github.com/conda-forge/python_abi-feedstock
   summary: Metapackage to select python implementation
+  description: Metapackage to select python implementation
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
+  dev_url: https://github.com/conda-forge/python_abi-feedstock
+  doc_url: https://github.com/conda-forge/python_abi-feedstock
 
 extra:
   recipe-maintainers:
