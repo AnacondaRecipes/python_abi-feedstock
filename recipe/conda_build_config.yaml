@@ -1,14 +1,14 @@
 python_abi_tag:
- - cp313
- - cp313t
+ - cp314
+ - cp314t
 
 python_impl_version:
- - 3.13
- - 3.13
+ - 3.14
+ - 3.14
 
 python_version:
- - 3.13
- - 3.13
+ - 3.14
+ - 3.14
 
 python_implementation:
  - cpython
