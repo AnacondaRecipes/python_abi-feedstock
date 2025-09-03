@@ -40,3 +40,9 @@ zip_keys:
    - python_version
    - python_impl_version
    - python_implementation
+
+# to help PBP generate a proper build graph
+python:
+  - "3.13"
+numpy:
+  - "2.1"
