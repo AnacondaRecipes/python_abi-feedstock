@@ -1,4 +1,4 @@
-{% set build_num = 2 %}
+{% set build_num = 3 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -26,9 +26,16 @@ requirements:
     - python {{ python_version }}.* *_{{ python_abi_tag }}                                         # [python_implementation == "cpython"]
     {% else %}
     # anaconda's python interpreters prior to 3.13 only have build numbers, and conda-forge's interpreters use suffix _cpython
-    # conda does not handle well OR operators in build strings
-    # This regex matches any build string that does not end with _graalpy or _pypy
-    - python {{ python_version }}.* ^(?!.*_graalpy$)(?!.*_pypy$).*$                                # [python_implementation == "cpython"]
+    # What we want is:
+    # - python {{ python_version }}.* ^.*_(cpython|\d+)$ # [python_implementation == "cpython"]
+    # However, conda does not handle well OR operators in build strings.
+    # Also, rattler does not handle lookahead in build strings.
+    # So the best we can do is to avoid regexes.
+
+    # This is a catch-all for all python builds
+    # As far as I am aware, the only other python builds are graalpy and pypy.
+    # These were built with dependencies on other variants of python_abi, so they wouldn't be picked up by this.
+    - python {{ python_version }}.*                                                                # [python_implementation == "cpython"]
     {% endif %}
     - python {{ python_version }}.* *_{{ python_impl_version.replace('.', '') }}_pypy              # [python_implementation == "pypy"]
     - python {{ python_version }}.* *_native{{ python_impl_version.replace('.', '') }}_graalpy     # [python_implementation == "graalpy"]
