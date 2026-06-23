@@ -44,7 +44,6 @@ zip_keys:
    - python_version
    - python_impl_version
    - python_implementation
-   - python
 
 # to help PBP generate a proper build graph
 python:
