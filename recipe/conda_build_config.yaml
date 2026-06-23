@@ -68,5 +68,5 @@ numpy:
   # TODO: numpy 2.6.0 is not released yet;
   # upstream says py315 support starts with Python 3.15.0rc1 (~Jul 2026)
   # keep 2.4 for now. Recheck when 2.6.0 is released.
-  - "2.4"
-  - "2.4"
+  - "2.5"
+  - "2.5"
