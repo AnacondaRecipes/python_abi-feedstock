@@ -41,9 +41,6 @@ requirements:
     - python {{ python_version }}.* *_native{{ python_impl_version.replace('.', '') }}_graalpy     # [python_implementation == "graalpy"]
 
 test:
-  requires:
-    # FIXME: remove this once we are able to build new minor versions of Python on CI.
-    - python 3.14  # [py==315]
   commands:
     - echo "hello"
 
