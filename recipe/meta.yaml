@@ -19,11 +19,11 @@ build:
   track_features:         # [python_implementation != "cpython"]
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
+  # Required for PBP.
+  force_ignore_keys:
+    - python
 
 requirements:
-  build:
-    # Python is needed for PBP.
-    - python
   run_constrained:
     {% if python_minor >= 13 %}
     - python {{ python_version }}.* *_{{ python_abi_tag }}                                         # [python_implementation == "cpython"]
