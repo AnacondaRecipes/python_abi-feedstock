@@ -21,6 +21,9 @@ build:
     - native_graalpy      # [python_implementation == "graalpy"]
 
 requirements:
+  build:
+    # Python is needed for PBP.
+    - python
   run_constrained:
     {% if python_minor >= 13 %}
     - python {{ python_version }}.* *_{{ python_abi_tag }}                                         # [python_implementation == "cpython"]
