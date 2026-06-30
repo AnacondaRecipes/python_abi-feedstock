@@ -1,4 +1,4 @@
-{% set build_num = 3 %}
+{% set build_num = 4 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -19,6 +19,9 @@ build:
   track_features:         # [python_implementation != "cpython"]
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
+  # Required for PBP.
+  force_ignore_keys:
+    - python
 
 requirements:
   run_constrained:
