@@ -1,4 +1,4 @@
-{% set build_num = 4 %}
+{% set build_num = 5 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -16,9 +16,11 @@ package:
 build:
   number: {{ build_num }}
   string: {{ build_num }}_{{ python_abi_tag }}
-  track_features:         # [python_implementation != "cpython"]
+  track_features:
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
+    # Penalize t so unspecified solves prefer GIL; name matches python 3.14t on main.
+    - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t")]
   # Required for PBP.
   force_ignore_keys:
     - python
