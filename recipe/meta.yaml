@@ -21,9 +21,13 @@ build:
     - native_graalpy      # [python_implementation == "graalpy"]
     # Penalize t so unspecified solves prefer GIL; name matches python 3.14t on main.
     - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t")]
-  # Required for PBP.
+  # Required for PBP. Ignore aggregate python zip_keys (numpy /
+  # is_freethreading / is_python_min) so this ABI matrix does not collide.
   force_ignore_keys:
     - python
+    - numpy
+    - is_freethreading
+    - is_python_min
 
 requirements:
   run_constrained:
