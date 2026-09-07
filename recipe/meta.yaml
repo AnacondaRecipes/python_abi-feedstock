@@ -7,14 +7,6 @@
 {% set python_version = "3.8" %}
 {% endif %}
 
-{% set python_minor = python_version.split(".")[1]|int %}
-{# Match python-feedstock: 3.14t on main is free-threading; 3.15+ is py_freethreading (PR 256). #}
-{% if python_minor >= 15 %}
-  {% set ft_feature = "py_freethreading" %}
-{% else %}
-  {% set ft_feature = "free-threading" %}
-{% endif %}
-
 package:
   name: python_abi
   version: {{ python_version }}
