@@ -19,10 +19,10 @@ build:
   track_features:
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
-    # Match python-feedstock: 3.14t on main is free-threading; 3.15+ is py_freethreading (PR 256).
-    # and, not or: GIL must not get a feature; 3.15t must not get both names.
+    # Anaconda free-threading starts at 3.14 (aggregate CBC; no 3.13t row).
+    # 3.14t python on main uses free-threading; 3.15+ uses py_freethreading (PR 256).
     # Use python_version (this recipe has no python zip / py).
-    - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version < "3.15"]
+    - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version == "3.14"]
     - py_freethreading    # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version >= "3.15"]
   # Required for PBP. Ignore aggregate python zip_keys (numpy /
   # is_freethreading / is_python_min) so this ABI matrix does not collide.
