@@ -1,4 +1,4 @@
-{% set build_num = 5 %}
+{% set build_num = 6 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -8,6 +8,12 @@
 {% endif %}
 
 {% set python_minor = python_version.split(".")[1]|int %}
+{# Match python-feedstock: 3.14t on main is free-threading; 3.15+ is py_freethreading (PR 256). #}
+{% if python_minor >= 15 %}
+  {% set ft_feature = "py_freethreading" %}
+{% else %}
+  {% set ft_feature = "free-threading" %}
+{% endif %}
 
 package:
   name: python_abi
@@ -19,8 +25,7 @@ build:
   track_features:
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
-    # Penalize t so unspecified solves prefer GIL; name matches python 3.14t on main.
-    - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t")]
+    - {{ ft_feature }}    # [python_implementation == "cpython" and python_abi_tag.endswith("t")]
   # Required for PBP. Ignore aggregate python zip_keys (numpy /
   # is_freethreading / is_python_min) so this ABI matrix does not collide.
   force_ignore_keys:
