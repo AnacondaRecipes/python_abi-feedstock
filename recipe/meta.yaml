@@ -7,6 +7,8 @@
 {% set python_version = "3.8" %}
 {% endif %}
 
+{% set python_minor = python_version.split(".")[1]|int %}
+
 package:
   name: python_abi
   version: {{ python_version }}
