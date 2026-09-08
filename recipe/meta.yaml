@@ -25,7 +25,7 @@ build:
     - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version == "3.14"]
     - py_freethreading    # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version >= "3.15"]
   # Required for PBP. Ignore aggregate python zip_keys (numpy /
-  # is_freethreading / is_python_min) so this ABI matrix does not collide.
+  # is_freethreading / is_python_min) so this matrix does not collide.
   force_ignore_keys:
     - python
     - numpy
