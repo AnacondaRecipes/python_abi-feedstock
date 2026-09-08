@@ -24,7 +24,7 @@ build:
     # Use python_version (this recipe has no python zip / py).
     - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version == "3.14"]
     - py_freethreading    # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version >= "3.15"]
-  # Required for PBP. Ignore aggregate python zip_keys (numpy /
+  # force_ignore_keys required for PBP. Ignore aggregate python zip_keys (numpy /
   # is_freethreading / is_python_min) so this matrix does not collide.
   force_ignore_keys:
     - python
