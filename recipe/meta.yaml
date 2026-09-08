@@ -1,4 +1,4 @@
-{% set build_num = 4 %}
+{% set build_num = 5 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -16,12 +16,21 @@ package:
 build:
   number: {{ build_num }}
   string: {{ build_num }}_{{ python_abi_tag }}
-  track_features:         # [python_implementation != "cpython"]
+  track_features:
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
-  # Required for PBP.
+    # Anaconda free-threading starts at 3.14 (aggregate CBC; no 3.13t row).
+    # 3.14t python on main uses free-threading; 3.15+ uses py_freethreading (PR 256).
+    # Use python_version (this recipe has no python zip / py).
+    - free-threading      # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version == "3.14"]
+    - py_freethreading    # [python_implementation == "cpython" and python_abi_tag.endswith("t") and python_version >= "3.15"]
+  # force_ignore_keys required for PBP. Ignore aggregate python zip_keys (numpy /
+  # is_freethreading / is_python_min) so this matrix does not collide.
   force_ignore_keys:
     - python
+    - numpy
+    - is_freethreading
+    - is_python_min
 
 requirements:
   run_constrained:
