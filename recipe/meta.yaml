@@ -1,4 +1,4 @@
-{% set build_num = 4 %}
+{% set build_num = 5 %}
 {% if python_impl_version is not defined %}
 {% set python_impl_version = "3.8" %}
 {% endif %}
@@ -16,12 +16,17 @@ package:
 build:
   number: {{ build_num }}
   string: {{ build_num }}_{{ python_abi_tag }}
-  track_features:         # [python_implementation != "cpython"]
+  track_features:
     - pypy                # [python_implementation == "pypy"]
     - native_graalpy      # [python_implementation == "graalpy"]
-  # Required for PBP.
+    - freethreading      # [python_implementation == "cpython" and python_abi_tag.endswith("t")]
+  # force_ignore_keys required for PBP. Ignore aggregate python zip_keys (numpy /
+  # is_freethreading / is_python_min) so this matrix does not collide.
   force_ignore_keys:
     - python
+    - numpy
+    - is_freethreading
+    - is_python_min
 
 requirements:
   run_constrained:
